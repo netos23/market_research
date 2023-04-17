@@ -1,0 +1,9 @@
+version: '2.1'
+
+services:
+  app:
+    image: 'python-docker:latest'
+    build: ./photo_search_app/
+    container_name: app
+    ports:
+      - '5001:5000'

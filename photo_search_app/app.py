@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
 from PIL import Image
-from flask import Flask, jsonify, json, request
+from flask import Flask, jsonify, json, request, redirect
 from flask_cors import CORS
 from numpy import float64
 from sklearn.cluster import KMeans
@@ -70,6 +70,21 @@ for l in clustering.labels_:
     i += 1
 
 
+@app.route('/')
+def get_app():
+    return redirect('static/index.html', 301)
+
+
+@app.route('/static/#/')
+def get_app_alt():
+    return redirect('/static/index.html', 301)
+
+
+@app.route('/static/')
+def get_app_short():
+    return redirect('/static/index.html', 301)
+
+
 @app.route('/pictures')
 def get_pictures():
     return jsonify({'pictures': labels})
@@ -96,6 +111,10 @@ def post_picture_predict():
     print(p)
 
     return jsonify({'pictures': labels_groups[p[0]]})
+
+
+def run_app():
+    return app
 
 
 if __name__ == '__main__':
