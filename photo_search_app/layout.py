@@ -11,7 +11,7 @@ metric = 'cosine'
 model_url = "https://tfhub.dev/tensorflow/efficientnet/lite0/feature-vector/2"
 
 IMAGE_SHAPE = (224, 224)
-IMAGE_PATH = './assets/images/Right'
+IMAGE_PATH = './static/Right'
 
 layer = hub.KerasLayer(model_url, input_shape=IMAGE_SHAPE + (3,))
 model = tf.keras.Sequential([layer])
@@ -33,12 +33,12 @@ def extract(file):
     # print(len(flattended_feature))
     # print(flattended_feature)
     # print('-----------')
-    return flattended_feature
+    return flattended_feature / np.linalg.norm(flattended_feature)
 
 
 def extract_all_images():
     images = [f for f in listdir(IMAGE_PATH) if isfile(join(IMAGE_PATH, f))]
-    with open('vertex.txt', 'w') as f:
+    with open('vertex_norm.txt', 'w') as f:
         for v, image in zip(map(lambda i: extract(join(IMAGE_PATH, i)), images), images):
             f.write(image)
             f.write(',')
@@ -46,3 +46,6 @@ def extract_all_images():
                 f.write(str(xi))
                 f.write(',')
             f.write('\n')
+
+
+extract_all_images()

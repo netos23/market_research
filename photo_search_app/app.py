@@ -47,7 +47,7 @@ def extract(img):
 
 
 def load_vertex():
-    with open('vertex.txt', 'r') as f:
+    with open('vertex4.txt', 'r') as f:
         return list(map(map_vectors, f.readlines()))
 
 
